@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+  <header class="header">
+    <h2 class="title">Think Tank Ai!</h2>
+    <h4 class="subheading">How can I assist you today?</h4>
+    <ul class="suggestion-list">
+      <li class="suggestions">
+        <h4 class="text">Can you help me create a to-do list for today?</h4>
+        <span class="icon material-symbols-outlined">draw</span>
+      </li>
+      <li class="suggestions">
+        <h4 class="text">What are the best skills to learn in 2024 that will make me good Ai Engineer?</h4>
+        <span class="icon material-symbols-outlined">lightbulb</span>
+      </li>
+      <li class="suggestions">
+        <h4 class="text">Can you tell me good sports for cardio?</h4>
+        <span class="icon material-symbols-outlined">explore</span>
+      </li>
+      <li class="suggestions">
+        <h4 class="text">Write the C++ code for binary tree traversal</h4>
+        <span class="icon material-symbols-outlined">code</span>
+      </li>
+    </ul>
+    <div class="typing-area">
+      <form action="#" class="typing-form">
+        <div class="input-wrapper">
+          <input type="text" class="typing-input" placeholder="Enter the prompt here" required>
+          <button class="icon material-symbols-outlined">send</button>
+          <span id="toggle-theme-button"   class="icon material-symbols-outlined">light_mode</span>
+          <span id="delete-chat-button" class="icon material-symbols-outlined">delete</span>
+          <span id="speak" class="icon material-symbols-outlined">volume_up</span>
+          <span id="mic" class="icon material-symbols-outlined">mic</span>         
+        </div>
+      </form>
+      <p class="disclaimer-text">JARVIS may display inaccurate info, including about people so double check its responses.</p>
+    </div>
+
+  </header>
+<div class="chat-list">
+  <!-- this is for the user msg  -->
+  <!-- <div class="message-outgoing">
+    <div class="message-content">
+      <img src="images/user.jpg" alt="User images" class="avatar">
+      <p class="text">This is the text from the user i am a user and i want to let you know that i am a user.</p>    
+    </div>
+  </div> -->
+  <!-- this is for the Gemini msg  -->
+  <!--<div class="message-incoming">
+    <div class="message-content">
+      <img src="images/google-gemini-icon.webp" alt="Gemini-icon" class="avatar">
+      <p class="text">This is the text from the Gemini i am a user and i want to let you know that i am a google.</p>
+      
+    </div>
+    <span class="icon material-symbols-outlined">content_copy</span>
+  </div> -->
+
+
+  <!-- <div class="message-incoming-loading">
+    <div class="message-content">
+      <img src="images/google-gemini-icon.webp" alt="Gemini-icon" class="avatar">
+      <p class="text">This is the text from the Gemini i am a user and i want to let you know that i am a google.</p>
+      <div class="loading-indicator">
+        <div class="loading-bar">
+          
+        </div>
+        <div class="loading-bar">
+
+        </div>
+        <div class="loading-bar">
+
+        </div>
+      </div>
+    </div>
+    <span class="icon material-symbols-outlined">content_copy</span>
+  </div> -->
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
