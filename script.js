@@ -107,6 +107,7 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 };
 const generateApiResponse = async (Usermessage, incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
+  const loaderElement = incomingMessageDiv.querySelector(".ai-circuit-loader");
  
   try {
       const requestBody = {
@@ -142,14 +143,16 @@ const generateApiResponse = async (Usermessage, incomingMessageDiv) => {
       
       const apiResponse = data?.candidates[0]?.content?.parts[0]?.text.replace(/<[^>]*>/g, "").replace(/\*/g, "");
 
-      // Comment out or remove the direct assignment
-      // textElement.innerText = apiResponse || "No response from API";
+      // Hide the loader and show the text
+      loaderElement.style.display = "none";
+      textElement.style.display = "block";
       
-      // Use showTypingEffect to handle the text display
       showTypingEffect(apiResponse, textElement, incomingMessageDiv);
 
   } catch (error) {
       IsResponseGenerating = false;
+      loaderElement.style.display = "none";
+      textElement.style.display = "block";
       textElement.innerText = error.message;
       textElement.classList.add("error");
   } finally {
@@ -183,13 +186,13 @@ const showLoadingAnimation = () => {
     const html = `<div class="message-content">
         <img src="images/jarvis.png" alt="jarvis-icon" class="avatar">
         <p class="text"></p>
-        <div class="loading-indicator">
-            <div class="loading-bar"></div>
-            <div class="loading-bar"></div>
-            <div class="loading-bar"></div>
+        <div class="ai-circuit-loader">
+            <div class="circuit-path"></div>
+            <div class="circuit-path"></div>
+            <div class="circuit-path"></div>
         </div>
     </div>
-    <span onclick="copyMessage(this)" class=" hide icon material-symbols-outlined">content_copy</span>`;
+    <span onclick="copyMessage(this)" class="hide icon material-symbols-outlined">content_copy</span>`;
     const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
 
     chatList.appendChild(incomingMessageDiv);
@@ -213,12 +216,14 @@ const handleOutgoingChat = () => {
     console.log("handleoutgoin chats") 
 
     IsResponseGenerating = true;
-    const html = `<div class="message-content">
-        <img src="images/user.jpg" alt="User images" class="avatar">
+    const userPromptHtml = `<div class="user-prompt">
         <p class="text">${Usermessage}</p>    
     </div>`;
-    const outgoingMessageDiv = createMessageElement(html, "outgoing");
-    chatList.appendChild(outgoingMessageDiv);
+    const userPromptDiv = createMessageElement(userPromptHtml, "outgoing");
+    userPromptDiv.classList.add("fade-in"); // Add fade-in class
+    chatList.appendChild(userPromptDiv); // Append the styled user prompt
+
+    // Removed the redundant outgoing message display
     typingform.reset();
     document.body.classList.add("hide-header");
 

@@ -345,3 +345,101 @@ this is done to keep the text of chat in a specific height */
 
     
 }
+
+.ai-circuit-loader {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    padding: 10px 0;
+}
+
+.circuit-path {
+    height: 10px;
+    background-color: rgba(0, 255, 255, 0.1);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.circuit-path::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 255, 255, 0.5), transparent);
+    animation: pulse 2s linear infinite;
+}
+
+.circuit-path::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 255, 255, 0.1);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+@keyframes glow {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Adjust the existing styles */
+.chat-list .message.incoming.loading .ai-circuit-loader {
+    display: flex;
+}
+
+.chat-list .message.incoming.loading .loading-indicator {
+    display: none;
+}
+
+.user-prompt {
+    background-color: #e0f7fa; /* Light blue background */
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for readability */
+    margin: 15px 0; /* Increased margin for more spacing */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-align: right; /* Align text to the right */
+    align-self: flex-end; /* Align to the right */
+    transition: opacity 0.3s ease-in-out; /* Smooth transition */
+    width: fit-content; /* Adjust width based on content */
+    max-width: 80%; /* Limit max width */
+    animation: slideFadeIn 0.5s ease-in-out; /* Add animation */
+    
+}
+
+@keyframes slideFadeIn {
+    0% {
+        transform: translateX(100%); /* Start off-screen to the right */
+        opacity: 0; /* Start invisible */
+    }
+    100% {
+        transform: translateX(0); /* End at original position */
+        opacity: 1; /* Fully visible */
+    }
+}
+
+.user-prompt .text {
+    font-size: 1.1rem; /* Slightly larger font size */
+    font-weight: bold; /* Bold text */
+    color: #333; /* Text color */
+}
