@@ -77,9 +77,6 @@ const createMessageElement = (content, ...classes) => {
     return div;
 };
 
-const API_KEY = "AIzaSyDFbxiYu_rq_o_UkkDHuhfcGJ_Rfrt09iI";
-const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
-
 const showTypingEffect = (text, textElement, incomingMessageDiv) => {
     const words = text.split(" ");
     let currentWordIndex = 0;
@@ -105,61 +102,44 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
         }
     }, 75);
 };
+
 const generateApiResponse = async (Usermessage, incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   const loaderElement = incomingMessageDiv.querySelector(".ai-circuit-loader");
  
   try {
-      const requestBody = {
-          contents: [
-              {
-                  role: "user",
-                  parts: [
-                      {
-                          text: Usermessage,
-                      },
-                  ],
-              },
-          ],
-      };
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: Usermessage }),
+    });
 
-      const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": API_KEY,
-          },
-          body: JSON.stringify(requestBody),
-      });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
 
-      if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Error Response:", response.status, errorText);
-          return;
-      }
+    const data = await response.json();
+    const apiResponse = data.response;
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error.message);
-      
-      const apiResponse = data?.candidates[0]?.content?.parts[0]?.text.replace(/<[^>]*>/g, "").replace(/\*/g, "");
-
-      // Hide the loader and show the text
-      loaderElement.style.display = "none";
-      textElement.style.display = "block";
-      
-      showTypingEffect(apiResponse, textElement, incomingMessageDiv);
+    // Hide the loader and show the text
+    loaderElement.style.display = "none";
+    textElement.style.display = "block";
+    
+    showTypingEffect(apiResponse, textElement, incomingMessageDiv);
 
   } catch (error) {
-      IsResponseGenerating = false;
-      loaderElement.style.display = "none";
-      textElement.style.display = "block";
-      textElement.innerText = error.message;
-      textElement.classList.add("error");
+    IsResponseGenerating = false;
+    loaderElement.style.display = "none";
+    textElement.style.display = "block";
+    textElement.innerText = "An error occurred while generating the response.";
+    textElement.classList.add("error");
+    console.error('Error:', error);
   } finally {
-      incomingMessageDiv.classList.remove("loading");
+    incomingMessageDiv.classList.remove("loading");
   }
 };
-
 
 const LoadLocalStorageData = () => {
     const savedChats = localStorage.getItem("saved_chats");
