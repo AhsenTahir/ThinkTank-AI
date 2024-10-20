@@ -33,11 +33,16 @@ body {
     background-color: var(--primary-color);
 }
 .chat-list{
-    padding: 2rem,1rem,12rem;
+    padding: 2rem 1rem 12rem;
     max-height: 100vh;
     overflow-y: auto;
-    scrollbar-color: #999 transparent;
-    
+    scrollbar-width: none;  /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+}
+
+/* For Webkit browsers like Chrome, Safari */
+.chat-list::-webkit-scrollbar {
+    display: none;
 }
 /* this is temprary */
 /* .hide-header .chat-list .message.incoming .icon{
