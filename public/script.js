@@ -78,22 +78,44 @@ const createMessageElement = (content, ...classes) => {
 };
 
 const showTypingEffect = (text, textElement, incomingMessageDiv) => {
-    const words = text.split(" ");
+    const lines = text.split("\n");
+    let currentLineIndex = 0;
     let currentWordIndex = 0;
     const loadingIndicator = incomingMessageDiv.querySelector(".loading-indicator");
-    // console.log(text);
     if (loadingIndicator) {
         loadingIndicator.style.display = "none";
     }
 
+    // Function to process text and convert asterisks to bold
+    const processText = (text) => {
+        return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                   .replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+    };
+
     const typingInterval = setInterval(() => {
-        textElement.innerText +=
-            (currentWordIndex === 0 ? "" : " ") + words[currentWordIndex++];
-        incomingMessageDiv.querySelector(".icon").classList.add("hide");
-
-        chatList.scrollTop = chatList.scrollHeight;
-
-        if (currentWordIndex === words.length) {
+        if (currentLineIndex < lines.length) {
+            const words = lines[currentLineIndex].split(" ");
+            
+            if (currentWordIndex < words.length) {
+                const currentWord = words[currentWordIndex];
+                const processedWord = processText(currentWord);
+                
+                if (textElement.innerHTML.endsWith(' ') || textElement.innerHTML === '' || textElement.innerHTML.endsWith('<br>')) {
+                    textElement.innerHTML += processedWord;
+                } else {
+                    textElement.innerHTML += ' ' + processedWord;
+                }
+                
+                currentWordIndex++;
+            } else {
+                textElement.innerHTML += '<br>';
+                currentLineIndex++;
+                currentWordIndex = 0;
+            }
+            
+            incomingMessageDiv.querySelector(".icon").classList.add("hide");
+            chatList.scrollTop = chatList.scrollHeight;
+        } else {
             clearInterval(typingInterval);
             IsResponseGenerating = false;
             incomingMessageDiv.querySelector(".icon").classList.remove("hide");
@@ -164,7 +186,7 @@ toggleThemeButton.addEventListener("click", () => {
 
 const showLoadingAnimation = () => {
     const html = `<div class="message-content">
-        <img src="images/jarvis.png" alt="jarvis-icon" class="avatar">
+        <img src="images/stem1.png" alt="stem-icon" class="avatar"> <!-- Updated image source -->
         <p class="text"></p>
         <div class="ai-circuit-loader">
             <div class="circuit-path"></div>
@@ -193,7 +215,7 @@ const handleOutgoingChat = () => {
     Usermessage = document.querySelector(".typing-input").value.trim() || Usermessage;
     if (!Usermessage || IsResponseGenerating) return;
 
-    console.log("handleoutgoin chats") 
+ 
 
     IsResponseGenerating = true;
     const userPromptHtml = `<div class="user-prompt">
