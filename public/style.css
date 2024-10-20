@@ -9,12 +9,15 @@
 }
 
 :root {
-    --text-color: #E3E3E3;
-    --subheading-color: #828282;
-    --placeholder-color: #A6A6A6;
-    --primary-color: #242424;
-    --secondary-color: #383838;
-    --secondary-hover-color: #444;
+    /* Text Colors */
+    --text-color: #DCE3E9;
+    --subheading-color: #A8B0B8;
+    --placeholder-color: #6C7A87;
+
+    /* Primary and Secondary Colors */
+    --primary-color: #051923;
+    --secondary-color: #0A2C40;
+    --secondary-hover-color: #123953;
 }
 .light-mode {
     --text-color: #222;
@@ -190,22 +193,45 @@ this is done to keep the text of chat in a specific height */
     line-height: 3.6rem;
 }
 
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 100% 50%;
+    }
+    50% {
+        background-position: 100% 0%;
+    }
+    75% {
+        background-position: 0% 100%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .header .title {
-    font-size: 3rem; /* Increase font size */
-    font-weight: 900; /* Make it bolder */
-    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Change gradient colors */
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #00B4D8, #0096C7, #051923, #0A2C40, #00B4D8);
+    background-size: 400% 400%;
     -webkit-background-clip: text;
-    background-clip: text; /* Added standard property for compatibility */
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow */
-    letter-spacing: 2px; /* Increase letter spacing */
-   
+    animation: gradientShift 15s ease infinite;
 }
 
 .header .subheading {
-    font-size: 2.4rem;
-    color: #ffda80; /* Updated to a lighter orange color */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Added subtle text shadow */
+    font-size: 1.8rem;
+    font-weight: 500;
+    background: linear-gradient(45deg, #DCE3E9, #A8B0B8, #6C7A87, #123953, #DCE3E9);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 15s ease infinite;
+    opacity: 0.9;
 }
 
 .suggestion-list {
@@ -413,33 +439,35 @@ this is done to keep the text of chat in a specific height */
 }
 
 .user-prompt {
-    background-color: #e0f7fa; /* Light blue background */
-    border-radius: 12px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for readability */
-    margin: 15px 0; /* Increased margin for more spacing */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    text-align: right; /* Align text to the right */
-    align-self: flex-end; /* Align to the right */
-    transition: opacity 0.3s ease-in-out; /* Smooth transition */
-    width: fit-content; /* Adjust width based on content */
-    max-width: 80%; /* Limit max width */
-    animation: slideFadeIn 0.5s ease-in-out; /* Add animation */
-    
+    background-color: var(--secondary-color);
+    border-radius: 0.8rem; /* Match the border-radius of the typing input */
+    padding: 10px 15px;
+    margin: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    align-self: flex-end;
+    transition: opacity 0.3s ease-in-out, background-color 0.3s ease;
+    width: fit-content;
+    max-width: 80%;
+    animation: slideFadeIn 0.5s ease-in-out;
+}
+
+.user-prompt:hover {
+    background-color: var(--secondary-hover-color);
 }
 
 @keyframes slideFadeIn {
     0% {
-        transform: translateX(100%); /* Start off-screen to the right */
-        opacity: 0; /* Start invisible */
+        transform: translateX(100%);
+        opacity: 0;
     }
     100% {
-        transform: translateX(0); /* End at original position */
-        opacity: 1; /* Fully visible */
+        transform: translateX(0);
+        opacity: 1;
     }
 }
 
 .user-prompt .text {
-    font-size: 1.1rem; /* Slightly larger font size */
-    font-weight: bold; /* Bold text */
-    color: #333; /* Text color */
+    font-size: 1rem; /* Match the font size of the typing input */
+    color: var(--text-color);
 }
